@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getProfile, logoutUser } from "../services/authServices";
 
 function Navbar() {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const fetchUser = async () => {
         try {
@@ -17,7 +18,7 @@ function Navbar() {
 
     useEffect(() => {
         fetchUser();
-    }, []);
+    }, [location.pathname]);
 
     const handleLogout = async () => {
         try {
@@ -30,37 +31,47 @@ function Navbar() {
     };
 
     return (
-        <nav>
-            {/* LOGO */}
-            <img
-                src={
-                    user?.avatar?.secure_url ||
-                    "https://ui-avatars.com/api/?name=LMS&background=4f46e5&color=fff"
-                }
-                alt="Logo"
-                width="40"
-                height="40"
-                style={{ borderRadius: "50%", cursor: "pointer" }}
-                onClick={() => navigate("/")}
-            />
+        <nav className="navbar">
+            {/* BRAND */}
+            <div className="navbar-brand" onClick={() => navigate("/")}>
+                <img
+                    className="navbar-logo"
+                    src={
+                        user?.avatar?.secure_url ||
+                        "https://ui-avatars.com/api/?name=LMS&background=1a3c5e&color=e8a020&bold=true"
+                    }
+                    alt="LMS Logo"
+                />
+                <span className="navbar-brand-name">Learn<span>Hub</span></span>
+            </div>
 
-            {/* COMMON LINKS — always visible */}
-            <button onClick={() => navigate("/")}>Home</button>
-            <button onClick={() => navigate("/courses")}>All Courses</button>
-            <button onClick={() => navigate("/my-courses")}>My Courses</button>
-            <button onClick={() => navigate("/course-store")}>Course Store</button>
+            {/* LINKS */}
+            <div className="navbar-links">
+                <button className="nav-btn" onClick={() => navigate("/")}>Home</button>
+                <button className="nav-btn" onClick={() => navigate("/courses")}>All Courses</button>
+                <button className="nav-btn" onClick={() => navigate("/my-courses")}>My Courses</button>
+                <button className="nav-btn" onClick={() => navigate("/course-store")}>Course Store</button>
 
-            {user ? (
-                <>
-                    <button onClick={() => navigate("/dashboard")}>Dashboard</button>
-                    <button className="btn-danger" onClick={handleLogout}>Logout</button>
-                </>
-            ) : (
-                <>
-                    <button className="btn-primary" onClick={() => navigate("/login")}>Login</button>
-                    <button className="btn-primary" onClick={() => navigate("/register")}>Sign Up</button>
-                </>
-            )}
+                <div className="nav-divider" />
+
+                {user ? (
+                    <>
+                        <button className="nav-btn" onClick={() => navigate("/dashboard")}>
+                            👤 Dashboard
+                        </button>
+                        <button className="nav-btn-danger" onClick={handleLogout}>
+                            Logout
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <button className="nav-btn" onClick={() => navigate("/login")}>Login</button>
+                        <button className="nav-btn-accent" onClick={() => navigate("/register")}>
+                            Sign Up
+                        </button>
+                    </>
+                )}
+            </div>
         </nav>
     );
 }
