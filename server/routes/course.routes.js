@@ -4,6 +4,7 @@ import {
     createCourse,
     getAllCourses,
     getLectureByCourseId,
+    getCourseById,
     removeCourse,
     updateCourse
 } from '../controllers/course.controller.js';
@@ -26,7 +27,7 @@ router.route('/')
     );
 
 router.route('/:id')
-    .get(isLoggedIn, getLectureByCourseId)
+    .get(isLoggedIn, getCourseById)
     .put(
         isLoggedIn,
         authorizedRoles('ADMIN'),
