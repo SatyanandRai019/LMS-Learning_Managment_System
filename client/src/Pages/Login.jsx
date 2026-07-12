@@ -1,90 +1,117 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { loginUser } from "../services/authServices";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { toast } from "react-hot-toast";
+
+import HomeLayout from "../Layouts/HomeLayout";
+import { loginAccount } from "../Redux/Slices/AuthSlice";
 
 function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const handleSubmit = async () => {
-        setError("");
-        if (!email || !password) {
-            setError("Please fill in all fields.");
-            return;
-        }
-        setLoading(true);
-        try {
-            await loginUser({ email, password });
-            navigate("/dashboard");
-        } catch (err) {
-            setError(err.response?.data?.message || "Invalid email or password.");
-        } finally {
-            setLoading(false);
-        }
-    };
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
 
-    const handleKeyDown = (e) => {
-        if (e.key === "Enter") handleSubmit();
-    };
+  const handleUserInput = (e) => {
+    const { name, value } = e.target;
+    setLoginData({ ...loginData, [name]: value });
+  };
 
-    return (
-        <div className="form-container">
-            <div className="form-card">
-                <h1 className="form-title">Welcome back</h1>
-                <p className="form-subtitle">Sign in to continue learning</p>
+  async function loginUser(e) {
+    e.preventDefault();
+    if (!loginData.email.trim() || !loginData.password.trim()) {
+      toast.error("Please fill all the fields");
+      return;
+    }
 
-                {error && <div className="alert alert-error">{error}</div>}
+    if (!loginData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
 
-                <div className="form-group">
-                    <label className="form-label">Email Address</label>
-                    <input
-                        className="form-input"
-                        type="email"
-                        placeholder="you@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                    />
-                </div>
+    if (loginData.password.length < 8) {
+      toast.error("Password must be at least 8 characters long");
+      return;
+    }
 
-                <div className="form-group">
-                    <label className="form-label">Password</label>
-                    <input
-                        className="form-input"
-                        type="password"
-                        placeholder="Enter your password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                    />
-                </div>
+    const response = await dispatch(loginAccount(loginData));
 
-                <button
-                    className="btn btn-primary btn-full"
-                    onClick={handleSubmit}
-                    disabled={loading}
-                    style={{ marginTop: "8px" }}
-                >
-                    {loading ? "Signing in..." : "Sign In"}
-                </button>
+    if (response.payload.success) {
+      navigate("/");
+    }
+  }
 
-                <div className="form-divider">
-                    <span>Don't have an account?</span>
-                </div>
+  return (
+    <HomeLayout>
+      <div className="flex min-h-screen items-center justify-center bg-[#f8fafc] px-4">
+        <form
+          onSubmit={loginUser}
+          className="w-full max-w-md space-y-5 rounded-3xl border border-slate-100 bg-white p-8 shadow-xl shadow-slate-200/50"
+        >
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-[#0a1f44]">
+              Welcome Back
+            </h1>
+            <p className="mt-1 text-sm text-slate-400">
+              Login to continue your learning journey
+            </p>
+          </div>
 
-                <button
-                    className="btn btn-outline"
-                    style={{ width: "100%", justifyContent: "center", border: "1.5px solid var(--border)", color: "var(--primary)", background: "transparent" }}
-                    onClick={() => navigate("/register")}
-                >
-                    Create an Account
-                </button>
-            </div>
-        </div>
-    );
+          <div className="flex flex-col gap-1">
+            <label htmlFor="email" className="text-sm font-medium text-slate-600">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm outline-none transition-all focus:border-[#0a1f44] focus:ring-2 focus:ring-[#0a1f44]/10"
+              value={loginData.email}
+              onChange={handleUserInput}
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label htmlFor="password" className="text-sm font-medium text-slate-600">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              className="rounded-xl border border-slate-200 px-4 py-2.5 text-sm outline-none transition-all focus:border-[#0a1f44] focus:ring-2 focus:ring-[#0a1f44]/10"
+              value={loginData.password}
+              onChange={handleUserInput}
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full rounded-xl bg-[#0a1f44] py-3 font-semibold text-white transition-all duration-200 hover:bg-[#112d5c]"
+          >
+            Login
+          </button>
+
+          <div className="flex flex-col items-center gap-2 pt-2 text-sm">
+            <Link to="/forgot-password" className="text-[#d4af37] hover:underline">
+              Forgot Password?
+            </Link>
+            <p className="text-slate-500">
+              Don't have an account?{" "}
+              <Link to="/signup" className="font-semibold text-[#0a1f44] hover:underline">
+                Sign Up
+              </Link>
+            </p>
+          </div>
+        </form>
+      </div>
+    </HomeLayout>
+  );
 }
 
 export default Login;
