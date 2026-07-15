@@ -52,6 +52,89 @@ export const loginAccount = createAsyncThunk(
   },
 );
 
+export const logoutAccount = createAsyncThunk("auth/logout", async () => {
+  try {
+    const response = axiosInstance.get("/user/logout");
+
+    toast.promise(response, {
+      loading: "Logging out...",
+      success: (data) => data?.data?.message,
+      error: "Failed to logout",
+    });
+
+    return (await response).data;
+  } catch (error) {
+    toast.error(error?.response?.data?.message || "Something went wrong");
+
+    throw error;
+  }
+});
+
+export const changePassword = createAsyncThunk(
+  "auth/changePassword",
+  async (passwordData) => {
+    try {
+      const response = axiosInstance.post(
+        "/user/change-password",
+        passwordData,
+      );
+
+      toast.promise(response, {
+        loading: "Changing password...",
+        success: (data) => data?.data?.message,
+        error: "Failed to change password",
+      });
+
+      return (await response).data;
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong");
+      throw error;
+    }
+  },
+);
+
+export const forgotPassword = createAsyncThunk(
+  "auth/forgotPassword",
+  async (email) => {
+    try {
+      const response = axiosInstance.post("/user/reset", { email });
+
+      toast.promise(response, {
+        loading: "Sending reset email...",
+        success: (data) => data?.data?.message,
+        error: "Failed to send reset email",
+      });
+
+      return (await response).data;
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong");
+      throw error;
+    }
+  },
+);
+
+export const resetPassword = createAsyncThunk(
+  "auth/resetPassword",
+  async (data) => {
+    try {
+      const response = axiosInstance.post(`/user/reset/${data.resetToken}`, {
+        password: data.password,
+      });
+
+      toast.promise(response, {
+        loading: "Resetting password...",
+        success: (data) => data?.data?.message,
+        error: "Failed to reset password",
+      });
+
+      return (await response).data;
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong");
+      throw error;
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -67,6 +150,18 @@ const authSlice = createSlice({
       localStorage.setItem("role", action.payload.user.role);
       localStorage.setItem("data", JSON.stringify(action.payload.user));
     });
+
+    builder.addCase(logoutAccount.fulfilled, (state) => {
+      state.isLoggedIn = false;
+      state.role = "";
+      state.data = {};
+
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("role");
+      localStorage.removeItem("data");
+    });
+
+    builder.addCase(changePassword.fulfilled, (state) => {});
   },
 });
 
