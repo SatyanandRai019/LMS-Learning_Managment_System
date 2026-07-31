@@ -3,8 +3,8 @@ import { BsPersonCircle } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import HomeLayout from "../Layouts/HomeLayout";
-import { createCourse } from "../Redux/Slices/CourseSlice";
+import HomeLayout from "../../Layouts/HomeLayout";
+import { createCourse } from "../../Redux/Slices/CourseSlice";
 
 function CreateCourse() {
   const navigate = useNavigate();

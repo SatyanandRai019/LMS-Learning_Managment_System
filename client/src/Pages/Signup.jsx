@@ -86,15 +86,15 @@ function Signup() {
 
     if (response.payload.success) {
       navigate("/");
+      setSignupData({
+        fullName: "",
+        email: "",
+        password: "",
+        avatar: "",
+      });
+      setPreviewImage("");
     }
 
-    setSignupData({
-      fullName: "",
-      email: "",
-      password: "",
-      avatar: "",
-    });
-    setPreviewImage("");
   }
 
   return (

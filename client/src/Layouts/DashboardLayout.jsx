@@ -3,17 +3,15 @@ import Sidebar from "../Components/Dashboard/Sidebar";
 
 function DashboardLayout() {
   return (
-    <div className="min-h-screen flex">
+    <div className="flex min-h-screen bg-base-100">
 
-      {/* Sidebar */}
-      <div className="w-64 border-r">
-        Sidebar
-      </div>
+      <Sidebar />
 
-      {/* Main Content */}
-      <div className="flex-1 p-6">
+      <main className="flex-1 overflow-y-auto p-6">
+
         <Outlet />
-      </div>
+
+      </main>
 
     </div>
   );
