@@ -4,6 +4,7 @@ import axiosInstance from "../../Helpers/axiosInstance";
 
 const initialState = {
   courseData: [],
+  courseDetails: null,
   loading: false,
   error: null,
 };
@@ -23,7 +24,19 @@ export const getAllCourses = createAsyncThunk(
       return (await response).data;
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");
+      throw error;
+    }
+  },
+);
 
+export const getCourseDetails = createAsyncThunk(
+  "course/getCourseDetails",
+  async (id) => {
+    try {
+      const response = await axiosInstance.get(`/courses/${id}`);
+      return response.data;
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Failed to fetch course");
       throw error;
     }
   },
@@ -44,7 +57,6 @@ export const createCourse = createAsyncThunk(
       return (await response).data;
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong");
-
       throw error;
     }
   },
@@ -114,11 +126,25 @@ const courseSlice = createSlice({
       state.error = action.error.message;
     });
 
+    builder.addCase(getCourseDetails.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getCourseDetails.fulfilled, (state, action) => {
+      state.loading = false;
+      state.courseDetails = action.payload.course;
+      state.error = null;
+    });
+    builder.addCase(getCourseDetails.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+
     builder.addCase(createCourse.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(createCourse.fulfilled, (state, action) => {
+    builder.addCase(createCourse.fulfilled, (state) => {
       state.loading = false;
       state.error = null;
     });
@@ -126,14 +152,13 @@ const courseSlice = createSlice({
       state.loading = false;
       state.error = action.error.message;
     });
+
     builder.addCase(deleteCourse.pending, (state) => {
       state.loading = true;
     });
-
     builder.addCase(deleteCourse.fulfilled, (state) => {
       state.loading = false;
     });
-
     builder.addCase(deleteCourse.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message;
@@ -142,11 +167,10 @@ const courseSlice = createSlice({
     builder.addCase(addLecture.pending, (state) => {
       state.loading = true;
     });
-
-    builder.addCase(addLecture.fulfilled, (state) => {
+    builder.addCase(addLecture.fulfilled, (state, action) => {
       state.loading = false;
+      state.courseDetails = action.payload.course;
     });
-
     builder.addCase(addLecture.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message;

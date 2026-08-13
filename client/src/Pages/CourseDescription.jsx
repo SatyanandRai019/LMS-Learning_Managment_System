@@ -19,6 +19,7 @@ function CourseDescription() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeLecture, setActiveLecture] = useState(null);
+  const [isEnrolled, setIsEnrolled] = useState(false);
   const { key, order } = useSelector((state) => state.payment);
 
   useEffect(() => {
@@ -31,6 +32,7 @@ function CourseDescription() {
           { withCredentials: true },
         );
         setCourse(res.data.course);
+        setIsEnrolled(res.data.isEnrolled || role === "ADMIN");
       } catch (err) {
         console.error(err);
         setError("Failed to load course details.");
@@ -255,13 +257,20 @@ function CourseDescription() {
             </div>
 
             <div className="pt-4">
-              {role !== "ADMIN" ? (
-                <button onClick={handleEnroll} className="btn btn-primary">
-                  Enroll Now
-                </button>
-              ) : (
+              {role === "ADMIN" ? (
                 <button disabled className="btn btn-disabled">
                   Admin Cannot Purchase
+                </button>
+              ) : isEnrolled ? (
+                <button
+                  disabled
+                  className="btn bg-green-600 text-white border-none"
+                >
+                  ✓ Enrolled
+                </button>
+              ) : (
+                <button onClick={handleEnroll} className="btn btn-primary">
+                  Enroll Now
                 </button>
               )}
             </div>
@@ -304,47 +313,70 @@ function CourseDescription() {
           </div>
 
           {/* Curriculum Section */}
+
           {course.lectures && course.lectures.length > 0 && (
-            <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm shadow-slate-100/50">
-              <h2 className="text-[#0a1f44] text-xl font-bold mb-5 flex items-center gap-2.5">
-                <span className="w-1 h-6 bg-[#0a1f44] rounded-full"></span>
+            <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+              <h2 className="text-[#0a1f44] text-xl font-bold mb-5">
                 Course Curriculum
               </h2>
-              <div className="divide-y divide-slate-100 border border-slate-100 rounded-2xl overflow-hidden">
+
+              <div className="space-y-4">
                 {course.lectures.map((lecture, index) => (
                   <div
-                    key={lecture._id || index}
-                    className="bg-white transition-colors duration-150 hover:bg-slate-50/70"
+                    key={lecture._id}
+                    className="border rounded-xl overflow-hidden"
                   >
                     <button
                       onClick={() =>
                         setActiveLecture(activeLecture === index ? null : index)
                       }
-                      className="w-full flex items-center justify-between p-4 text-left font-medium text-slate-700 text-sm sm:text-base"
+                      className="w-full flex justify-between items-center p-4 bg-white hover:bg-gray-50"
                     >
-                      <span className="flex items-center gap-3 truncate pr-4">
-                        <span className="flex-shrink-0 w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-500">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center font-bold">
                           {index + 1}
-                        </span>
-                        <span className="truncate">{lecture.title}</span>
-                      </span>
-                      <svg
-                        className={`w-5 h-5 text-slate-400 transform transition-transform duration-200 ${activeLecture === index ? "rotate-180" : ""}`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
+                        </div>
+
+                        <span className="font-semibold">{lecture.title}</span>
+                      </div>
+
+                      <span>{activeLecture === index ? "▲" : "▼"}</span>
                     </button>
-                    {activeLecture === index && lecture.description && (
-                      <div className="px-13 pb-4 pr-6 text-xs sm:text-sm text-slate-500 border-t border-slate-50 pt-2 bg-slate-50/40">
-                        {lecture.description}
+
+                    {activeLecture === index && (
+                      <div className="p-5 border-t bg-slate-50">
+                        <p className="text-gray-600 mb-5">
+                          {lecture.description}
+                        </p>
+
+                        {isEnrolled ? (
+                          lecture.lecture?.secure_url ? (
+                            <video
+                              controls
+                              controlsList="nodownload"
+                              className="w-full rounded-lg"
+                            >
+                              <source
+                                src={lecture.lecture.secure_url}
+                                type="video/mp4"
+                              />
+                            </video>
+                          ) : (
+                            <div className="text-red-500">
+                              Video unavailable
+                            </div>
+                          )
+                        ) : (
+                          <div className="bg-yellow-100 border border-yellow-300 rounded-lg p-4">
+                            <h3 className="font-bold text-yellow-700">
+                              🔒 This lecture is locked
+                            </h3>
+
+                            <p className="text-yellow-600 mt-2">
+                              Purchase this course to watch this lecture.
+                            </p>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>

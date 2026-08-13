@@ -1,4 +1,5 @@
 import Course from "../models/course.model.js";
+import User from "../models/user.model.js";
 import AppError from "../utils/error.util.js";
 import cloudinary from "cloudinary";
 import fs from "fs/promises";
@@ -63,10 +64,33 @@ const getCourseById = async (req, res, next) => {
       return next(new AppError("Course not found", 404));
     }
 
+    // Determine if the requesting user can access full lecture content
+    // (video URLs) — only ADMIN or an enrolled user should get them.
+    let hasAccess = req.user?.role === "ADMIN";
+
+    if (!hasAccess && req.user?.id) {
+      const user = await User.findById(req.user.id).select("enrolledCourses");
+      hasAccess = user?.enrolledCourses?.some(
+        (courseId) => courseId.toString() === id,
+      );
+    }
+
+    const courseObj = course.toObject();
+
+    if (!hasAccess) {
+      courseObj.lectures = courseObj.lectures.map((lecture) => ({
+        _id: lecture._id,
+        title: lecture.title,
+        description: lecture.description,
+        locked: true,
+      }));
+    }
+
     res.status(200).json({
       success: true,
       message: "Course fetched successfully",
-      course,
+      course: courseObj,
+      isEnrolled: hasAccess,
     });
   } catch (err) {
     return next(new AppError(err.message, 500));
@@ -196,6 +220,8 @@ const addLectureToCourseById = async (req, res, next) => {
       try {
         const result = await cloudinary.v2.uploader.upload(req.file.path, {
           folder: "lms",
+          resource_type: "video",
+          chunk_size: 6000000, // 6MB chunks — bade video files ke liye zaroori
         });
 
         if (result) {
@@ -235,6 +261,3 @@ export {
   removeCourse,
   addLectureToCourseById,
 };
-
-
-

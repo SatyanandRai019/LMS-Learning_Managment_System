@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 
 import Footer from "./Components/Footer";
 import RequireAuth from "./Components/Auth/RequireAuth";
@@ -30,6 +30,20 @@ import AddLecture from "./Pages/Admin/AddLecture";
 import CreateCourse from "./Pages/Admin/CreateCourse";
 
 function App() {
+  const location = useLocation();
+
+  // Dashboard/Admin pages have their own fixed-sidebar layout,
+  // so the public marketing footer should not render there.
+  const isDashboardRoute =
+    location.pathname.startsWith("/dashboard") ||
+    location.pathname.startsWith("/admin") ||
+    location.pathname.startsWith("/profile") ||
+    location.pathname.startsWith("/my-courses") ||
+    location.pathname.startsWith("/change-password") ||
+    location.pathname.startsWith("/payments") ||
+    location.pathname.startsWith("/course/create") ||
+    location.pathname.includes("/add-lecture");
+
   return (
     <>
       <Routes>
@@ -46,7 +60,11 @@ function App() {
         <Route path="/courses" element={<Courses />} />
         <Route path="/course/:id" element={<CourseDescription />} />
 
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route
+          path="/forgot-password"
+          element={<ForgotPassword />}
+        />
+
         <Route
           path="/reset-password/:resetToken"
           element={<ResetPassword />}
@@ -64,18 +82,7 @@ function App() {
 
         <Route path="/denied" element={<Denied />} />
 
-        {/* Admin Create Course */}
-
-        <Route
-          element={<RequireAuth allowedRoles={["ADMIN"]} />}
-        >
-          <Route
-            path="/course/create"
-            element={<CreateCourse />}
-          />
-        </Route>
-
-        {/* Dashboard */}
+        {/* Protected Routes */}
 
         <Route
           element={
@@ -101,22 +108,38 @@ function App() {
               element={<MyCourses />}
             />
 
+            <Route
+              path="/change-password"
+              element={<ChangePassword />}
+            />
+
             {/* Admin */}
 
             <Route
-              path="/admin/dashboard"
-              element={<AdminDashboard />}
-            />
+              element={
+                <RequireAuth allowedRoles={["ADMIN"]} />
+              }
+            >
+              <Route
+                path="/admin/dashboard"
+                element={<AdminDashboard />}
+              />
 
-            <Route
-              path="/admin/courses"
-              element={<ManageCourses />}
-            />
+              <Route
+                path="/admin/courses"
+                element={<ManageCourses />}
+              />
 
-            <Route
-              path="/course/:id/add-lecture"
-              element={<AddLecture />}
-            />
+              <Route
+                path="/course/create"
+                element={<CreateCourse />}
+              />
+
+              <Route
+                path="/course/:id/add-lecture"
+                element={<AddLecture />}
+              />
+            </Route>
 
           </Route>
         </Route>
@@ -125,7 +148,7 @@ function App() {
 
       </Routes>
 
-      <Footer />
+      {!isDashboardRoute && <Footer />}
     </>
   );
 }

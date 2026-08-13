@@ -7,6 +7,8 @@ const initialState = {
     totalUsers: 0,
     totalCourses: 0,
     totalRevenue: 0,
+    revenueTrend: [],
+    topCourses: [],
   },
   loading: false,
   error: null,
@@ -20,15 +22,13 @@ export const getDashboardData = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      toast.error(
-        error?.response?.data?.message || "Failed to load dashboard"
-      );
+      toast.error(error?.response?.data?.message || "Failed to load dashboard");
 
       return rejectWithValue(
-        error?.response?.data?.message || "Something went wrong"
+        error?.response?.data?.message || "Something went wrong",
       );
     }
-  }
+  },
 );
 
 const dashboardSlice = createSlice({
@@ -50,6 +50,8 @@ const dashboardSlice = createSlice({
           totalUsers: action.payload.totalUsers,
           totalCourses: action.payload.totalCourses,
           totalRevenue: action.payload.totalRevenue,
+          revenueTrend: action.payload.revenueTrend || [],
+          topCourses: action.payload.topCourses || [],
         };
       })
 

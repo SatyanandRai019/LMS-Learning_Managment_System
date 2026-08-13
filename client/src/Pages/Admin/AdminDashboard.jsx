@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDashboardData } from "../../Redux/Slices/dashboardSlice";
 import StatCard from "../../Components/Dashboard/StatCard";
+import RevenueChart from "../../Components/Dashboard/RevenueChart";
+import TopCourses from "../../Components/Dashboard/TopCourses";
 
 function AdminDashboard() {
 
@@ -54,6 +56,14 @@ function AdminDashboard() {
           title="Revenue"
           value={`₹${dashboardData.totalRevenue}`}
         />
+
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+
+        <RevenueChart revenueTrend={dashboardData.revenueTrend} />
+
+        <TopCourses topCourses={dashboardData.topCourses} />
 
       </div>
 
