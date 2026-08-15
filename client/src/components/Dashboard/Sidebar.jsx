@@ -9,7 +9,7 @@ import {
   FaKey,
   FaSignOutAlt,
 } from "react-icons/fa";
-import { logoutAccount } from "../../Redux/Slices/authSlice";
+import { logoutAccount } from "../../Redux/Slices/AuthSlice";
 
 function Sidebar() {
   const dispatch = useDispatch();
@@ -68,7 +68,6 @@ function Sidebar() {
 
   return (
     <aside className="fixed inset-y-0 left-0 z-20 flex h-screen w-64 flex-shrink-0 flex-col overflow-y-auto bg-[#0a1f44] text-white">
-
       {/* Logo */}
       <div className="border-b border-white/10 p-6">
         <h1 className="text-center text-2xl font-bold tracking-wide">
@@ -82,7 +81,9 @@ function Sidebar() {
           {data?.fullName?.charAt(0)?.toUpperCase()}
         </div>
 
-        <h2 className="mt-3 truncate text-base font-semibold">{data?.fullName}</h2>
+        <h2 className="mt-3 truncate text-base font-semibold">
+          {data?.fullName}
+        </h2>
 
         <p className="truncate text-xs text-slate-400">{data?.email}</p>
 
@@ -97,9 +98,7 @@ function Sidebar() {
           Main Menu
         </p>
 
-        <div className="flex flex-col gap-1">
-          {links.map(renderLink)}
-        </div>
+        <div className="flex flex-col gap-1">{links.map(renderLink)}</div>
 
         <p className="mb-2 mt-8 px-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
           Account

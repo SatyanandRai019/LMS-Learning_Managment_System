@@ -40,14 +40,19 @@ function ResetPassword() {
           className="w-full max-w-md space-y-5 rounded-3xl border border-slate-100 bg-white p-8 shadow-xl shadow-slate-200/50"
         >
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-[#0a1f44]">Reset Password</h1>
+            <h1 className="text-2xl font-bold text-[#0a1f44]">
+              Reset Password
+            </h1>
             <p className="mt-1 text-sm text-slate-400">
               Enter a new password for your account
             </p>
           </div>
 
           <div className="flex flex-col gap-1">
-            <label htmlFor="password" className="text-sm font-medium text-slate-600">
+            <label
+              htmlFor="password"
+              className="text-sm font-medium text-slate-600"
+            >
               New Password
             </label>
             <input
@@ -69,7 +74,10 @@ function ResetPassword() {
           </button>
 
           <p className="text-center text-sm">
-            <Link to="/login" className="font-semibold text-[#d4af37] hover:underline">
+            <Link
+              to="/login"
+              className="font-semibold text-[#d4af37] hover:underline"
+            >
               Back to Login
             </Link>
           </p>

@@ -52,16 +52,17 @@ function Login() {
           className="w-full max-w-md space-y-5 rounded-3xl border border-slate-100 bg-white p-8 shadow-xl shadow-slate-200/50"
         >
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-[#0a1f44]">
-              Welcome Back
-            </h1>
+            <h1 className="text-2xl font-bold text-[#0a1f44]">Welcome Back</h1>
             <p className="mt-1 text-sm text-slate-400">
               Login to continue your learning journey
             </p>
           </div>
 
           <div className="flex flex-col gap-1">
-            <label htmlFor="email" className="text-sm font-medium text-slate-600">
+            <label
+              htmlFor="email"
+              className="text-sm font-medium text-slate-600"
+            >
               Email
             </label>
             <input
@@ -76,7 +77,10 @@ function Login() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label htmlFor="password" className="text-sm font-medium text-slate-600">
+            <label
+              htmlFor="password"
+              className="text-sm font-medium text-slate-600"
+            >
               Password
             </label>
             <input
@@ -98,12 +102,18 @@ function Login() {
           </button>
 
           <div className="flex flex-col items-center gap-2 pt-2 text-sm">
-            <Link to="/forgot-password" className="text-[#d4af37] hover:underline">
+            <Link
+              to="/forgot-password"
+              className="text-[#d4af37] hover:underline"
+            >
               Forgot Password?
             </Link>
             <p className="text-slate-500">
               Don't have an account?{" "}
-              <Link to="/signup" className="font-semibold text-[#0a1f44] hover:underline">
+              <Link
+                to="/signup"
+                className="font-semibold text-[#0a1f44] hover:underline"
+              >
                 Sign Up
               </Link>
             </p>

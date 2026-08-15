@@ -54,33 +54,48 @@ function HomeLayout({ children }) {
 
           <ul className="menu w-full gap-1 p-5 text-base">
             <li>
-              <Link to="/" className="rounded-lg text-slate-600 hover:bg-[#0a1f44]/5 hover:text-[#0a1f44]">
+              <Link
+                to="/"
+                className="rounded-lg text-slate-600 hover:bg-[#0a1f44]/5 hover:text-[#0a1f44]"
+              >
                 🏠 Home
               </Link>
             </li>
 
             {isLoggedIn && role === "ADMIN" && (
               <li>
-                <Link to="/course/create" className="rounded-lg text-slate-600 hover:bg-[#0a1f44]/5 hover:text-[#0a1f44]">
+                <Link
+                  to="/course/create"
+                  className="rounded-lg text-slate-600 hover:bg-[#0a1f44]/5 hover:text-[#0a1f44]"
+                >
                   ➕ Create Course
                 </Link>
               </li>
             )}
 
             <li>
-              <Link to="/courses" className="rounded-lg text-slate-600 hover:bg-[#0a1f44]/5 hover:text-[#0a1f44]">
+              <Link
+                to="/courses"
+                className="rounded-lg text-slate-600 hover:bg-[#0a1f44]/5 hover:text-[#0a1f44]"
+              >
                 📚 All Courses
               </Link>
             </li>
 
             <li>
-              <Link to="/about" className="rounded-lg text-slate-600 hover:bg-[#0a1f44]/5 hover:text-[#0a1f44]">
+              <Link
+                to="/about"
+                className="rounded-lg text-slate-600 hover:bg-[#0a1f44]/5 hover:text-[#0a1f44]"
+              >
                 ℹ️ About Us
               </Link>
             </li>
 
             <li>
-              <Link to="/contactus" className="rounded-lg text-slate-600 hover:bg-[#0a1f44]/5 hover:text-[#0a1f44]">
+              <Link
+                to="/contactus"
+                className="rounded-lg text-slate-600 hover:bg-[#0a1f44]/5 hover:text-[#0a1f44]"
+              >
                 📞 Contact Us
               </Link>
             </li>

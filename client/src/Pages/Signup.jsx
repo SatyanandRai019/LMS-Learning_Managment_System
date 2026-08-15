@@ -94,7 +94,6 @@ function Signup() {
       });
       setPreviewImage("");
     }
-
   }
 
   return (
@@ -139,7 +138,10 @@ function Signup() {
           />
 
           <div className="flex flex-col gap-1">
-            <label htmlFor="fullName" className="text-sm font-medium text-slate-600">
+            <label
+              htmlFor="fullName"
+              className="text-sm font-medium text-slate-600"
+            >
               Full Name
             </label>
             <input
@@ -155,7 +157,10 @@ function Signup() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label htmlFor="email" className="text-sm font-medium text-slate-600">
+            <label
+              htmlFor="email"
+              className="text-sm font-medium text-slate-600"
+            >
               Email
             </label>
             <input
@@ -171,7 +176,10 @@ function Signup() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label htmlFor="password" className="text-sm font-medium text-slate-600">
+            <label
+              htmlFor="password"
+              className="text-sm font-medium text-slate-600"
+            >
               Password
             </label>
             <input
@@ -195,7 +203,10 @@ function Signup() {
 
           <p className="text-center text-sm text-slate-500">
             Already have an account?{" "}
-            <Link to="/login" className="font-semibold text-[#0a1f44] hover:underline">
+            <Link
+              to="/login"
+              className="font-semibold text-[#0a1f44] hover:underline"
+            >
               Login
             </Link>
           </p>
