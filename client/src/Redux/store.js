@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import authReducer from "./Slices/authSlice";
-import courseReducer from "./Slices/courseSlice";
+import authReducer from "./Slices/AuthSlice";
+import courseReducer from "./Slices/CourseSlice";
 import paymentReducer from "./Slices/paymentSlice";
 import dashboardReducer from "./Slices/dashboardSlice";
 
