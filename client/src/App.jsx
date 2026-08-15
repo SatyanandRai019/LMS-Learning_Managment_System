@@ -1,7 +1,7 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 
-import Footer from "./Components/Footer";
-import RequireAuth from "./Components/Auth/RequireAuth";
+import Footer from "./components/Footer";
+import RequireAuth from "./components/Auth/RequireAuth";
 
 import HomePage from "./Pages/HomePage";
 import AboutUs from "./Pages/AboutUs";
