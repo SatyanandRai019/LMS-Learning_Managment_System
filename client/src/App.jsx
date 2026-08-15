@@ -3,31 +3,31 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import Footer from "./components/Footer";
 import RequireAuth from "./components/Auth/RequireAuth";
 
-import HomePage from "./pages/HomePage";
-import AboutUs from "./pages/AboutUs";
-import ContactUs from "./pages/ContactUs";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import Courses from "./pages/Courses";
-import CourseDescription from "./pages/CourseDescription";
-import ChangePassword from "./pages/ChangePassword";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import PaymentSuccess from "./pages/PaymentSuccess";
-import PaymentFailure from "./pages/PaymentFailure";
-import Denied from "./pages/Denied";
-import NotFound from "./pages/NotFound";
+import HomePage from "./Pages/HomePage";
+import AboutUs from "./Pages/AboutUs";
+import ContactUs from "./Pages/ContactUs";
+import Signup from "./Pages/Signup";
+import Login from "./Pages/Login";
+import Courses from "./Pages/Courses";
+import CourseDescription from "./Pages/CourseDescription";
+import ChangePassword from "./Pages/ChangePassword";
+import ForgotPassword from "./Pages/ForgotPassword";
+import ResetPassword from "./Pages/ResetPassword";
+import PaymentSuccess from "./Pages/PaymentSuccess";
+import PaymentFailure from "./Pages/PaymentFailure";
+import Denied from "./Pages/Denied";
+import NotFound from "./Pages/NotFound";
 
 import DashboardLayout from "./Layouts/DashboardLayout";
 
-import Dashboard from "./pages/User/Dashboard";
-import MyCourses from "./pages/User/MyCourses";
-import Profile from "./pages/User/Profile";
+import Dashboard from "./Pages/User/Dashboard";
+import MyCourses from "./Pages/User/MyCourses";
+import Profile from "./Pages/User/Profile";
 
-import AdminDashboard from "./pages/Admin/AdminDashboard";
-import ManageCourses from "./pages/Admin/ManageCourses";
-import AddLecture from "./pages/Admin/AddLecture";
-import CreateCourse from "./pages/Admin/CreateCourse";
+import AdminDashboard from "./Pages/Admin/AdminDashboard";
+import ManageCourses from "./Pages/Admin/ManageCourses";
+import AddLecture from "./Pages/Admin/AddLecture";
+import CreateCourse from "./Pages/Admin/CreateCourse";
 
 function App() {
   const location = useLocation();
