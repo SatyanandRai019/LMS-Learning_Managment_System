@@ -1,17 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDashboardData } from "../../Redux/Slices/dashboardSlice";
-import StatCard from "../../Components/Dashboard/StatCard";
-import RevenueChart from "../../Components/Dashboard/RevenueChart";
-import TopCourses from "../../Components/Dashboard/TopCourses";
+import StatCard from "../../components/Dashboard/StatCard";
+import RevenueChart from "../../components/Dashboard/RevenueChart";
+import TopCourses from "../../components/Dashboard/TopCourses";
 
 function AdminDashboard() {
-
   const dispatch = useDispatch();
 
-  const { dashboardData, loading } = useSelector(
-    (state) => state.dashboard
-  );
+  const { dashboardData, loading } = useSelector((state) => state.dashboard);
 
   useEffect(() => {
     dispatch(getDashboardData());
@@ -27,46 +24,25 @@ function AdminDashboard() {
 
   return (
     <div className="space-y-8">
-
       <div>
+        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
 
-        <h1 className="text-3xl font-bold">
-          Admin Dashboard
-        </h1>
-
-        <p className="text-gray-500">
-          Dashboard Overview
-        </p>
-
+        <p className="text-gray-500">Dashboard Overview</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
+        <StatCard title="Total Users" value={dashboardData.totalUsers} />
 
-        <StatCard
-          title="Total Users"
-          value={dashboardData.totalUsers}
-        />
+        <StatCard title="Total Courses" value={dashboardData.totalCourses} />
 
-        <StatCard
-          title="Total Courses"
-          value={dashboardData.totalCourses}
-        />
-
-        <StatCard
-          title="Revenue"
-          value={`₹${dashboardData.totalRevenue}`}
-        />
-
+        <StatCard title="Revenue" value={`₹${dashboardData.totalRevenue}`} />
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-
         <RevenueChart revenueTrend={dashboardData.revenueTrend} />
 
         <TopCourses topCourses={dashboardData.topCourses} />
-
       </div>
-
     </div>
   );
 }

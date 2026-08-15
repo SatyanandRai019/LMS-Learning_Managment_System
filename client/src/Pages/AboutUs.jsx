@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import CarouselSlide from "../Components/CarouselSlide";
+import CarouselSlide from "../components/CarouselSlide";
 import HomeLayout from "../Layouts/HomeLayout";
 import { carouselData } from "../Constants/CarouselData";
 

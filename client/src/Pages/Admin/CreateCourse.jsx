@@ -92,7 +92,9 @@ function CreateCourse() {
           className="w-full max-w-md space-y-5 rounded-3xl border border-slate-100 bg-white p-8 shadow-xl shadow-slate-200/50"
         >
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-[#0a1f44]">Create a Course</h1>
+            <h1 className="text-2xl font-bold text-[#0a1f44]">
+              Create a Course
+            </h1>
             <p className="mt-1 text-sm text-slate-400">
               Fill in the details to publish a new course
             </p>
@@ -126,7 +128,10 @@ function CreateCourse() {
           />
 
           <div className="flex flex-col gap-1">
-            <label htmlFor="title" className="text-sm font-medium text-slate-600">
+            <label
+              htmlFor="title"
+              className="text-sm font-medium text-slate-600"
+            >
               Course Title
             </label>
             <input
@@ -141,7 +146,10 @@ function CreateCourse() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label htmlFor="description" className="text-sm font-medium text-slate-600">
+            <label
+              htmlFor="description"
+              className="text-sm font-medium text-slate-600"
+            >
               Course Description
             </label>
             <input
@@ -156,7 +164,10 @@ function CreateCourse() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label htmlFor="category" className="text-sm font-medium text-slate-600">
+            <label
+              htmlFor="category"
+              className="text-sm font-medium text-slate-600"
+            >
               Course Category
             </label>
             <input
@@ -171,7 +182,10 @@ function CreateCourse() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <label htmlFor="createdBy" className="text-sm font-medium text-slate-600">
+            <label
+              htmlFor="createdBy"
+              className="text-sm font-medium text-slate-600"
+            >
               Instructor Name
             </label>
             <input
@@ -193,7 +207,10 @@ function CreateCourse() {
           </button>
 
           <p className="text-center text-sm">
-            <Link to="/courses" className="font-semibold text-[#d4af37] hover:underline">
+            <Link
+              to="/courses"
+              className="font-semibold text-[#d4af37] hover:underline"
+            >
               Back to Courses
             </Link>
           </p>

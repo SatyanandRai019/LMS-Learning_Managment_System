@@ -75,7 +75,6 @@ function AddLecture() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-8">
-
       <div>
         <Link
           to="/admin/courses"
@@ -124,18 +123,10 @@ function AddLecture() {
         />
 
         {previewUrl && (
-          <video
-            src={previewUrl}
-            controls
-            className="w-full rounded-lg"
-          />
+          <video src={previewUrl} controls className="w-full rounded-lg" />
         )}
 
-        <button
-          type="submit"
-          className="btn btn-primary"
-          disabled={loading}
-        >
+        <button type="submit" className="btn btn-primary" disabled={loading}>
           {loading ? "Uploading..." : "Add Lecture"}
         </button>
       </form>
@@ -172,7 +163,6 @@ function AddLecture() {
           </p>
         )}
       </div>
-
     </div>
   );
 }
